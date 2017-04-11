@@ -1,0 +1,30 @@
+#!/bin/bash
+
+# Init setup
+sed -i 's/^memory_limit.*$/memory_limit = 768M/g' /etc/php.ini
+sed -i 's/^max_execution_time.*$/max_execution_time = 18000/g' /etc/php.ini
+
+# Check to re-init environment if needed
+# It means you can reset this docker environment to default by removing server.ini
+if [ ! -h /etc/supervisord.d/server.ini ]
+then
+    # Web Server Switchthen
+    if [ "$WEB_SRV" == "httpd" -o "$WEB_SRV" == "apache" ]
+    then
+        ln -s /etc/supervisord.d/httpd.ini.sample /etc/supervisord.d/server.ini
+    else
+        ln -s /etc/supervisord.d/nginx.ini.sample /etc/supervisord.d/server.ini
+    fi
+
+    # Modify apache uid:gid
+    if [ "$UID" ]
+    then
+        usermod -u $UID apache
+    fi
+    if [ "$GID" ]
+    then
+        groupmod -g $GID apache
+    fi
+fi
+
+exec /usr/bin/supervisord -n -c /etc/supervisord.conf
