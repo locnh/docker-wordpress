@@ -1,5 +1,5 @@
 ## Supported tags and respective `Dockerfile` links
-* [`latest` (*2.x/Dockerfile*)](https://github.com/locnh/docker-wordpress/blob/master/Dockerfile)
+* [`latest` (*Dockerfile*)](https://github.com/locnh/docker-wordpress/blob/master/Dockerfile)
 
 ## What is this ?
 Docker container built with CentOS 7, NGINX (or HTTPD) and PHP 7 with compatible version and modules for Wordpress
